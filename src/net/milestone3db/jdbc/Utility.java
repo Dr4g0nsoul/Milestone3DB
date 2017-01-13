@@ -57,8 +57,8 @@ public class Utility {
 		return ret;
 	}
 	
-	public static DefaultTableModel dbtabletotable(String table, String filter) throws SQLException{
-		DefaultTableModel ret = new DefaultTableModel();
+	public static CustomTableModel dbtabletotable(String table, String filter) throws SQLException{
+		CustomTableModel ret = new CustomTableModel();
 		Connection con = JDBCConnector.getInstance();
 		Statement stmt = con.createStatement();
 		ResultSet rs = null;
@@ -89,4 +89,5 @@ public class Utility {
 		ret.setDataVector(data, columns);
 		return ret;
 	}
+	
 }
