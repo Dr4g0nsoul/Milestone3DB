@@ -6,6 +6,9 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import net.milestone3db.jdbc.CustomTableModel;
+import net.milestone3db.jdbc.JDBCConnector;
+
 @SuppressWarnings("serial")
 public class TableContentFromDatabase extends JPanel
 {
@@ -18,16 +21,18 @@ public class TableContentFromDatabase extends JPanel
         ArrayList columnNames = new ArrayList();
         ArrayList data = new ArrayList();
 
-        //  Connect to Database, run query, get result set
-        String url = "jdbc:postgresql://localhost:5432/steam";
-        String userid = "postgres";
-        String password = "masterkey";
+        //  Connect to Database, run query, get result
         String sql = "SELECT * FROM "+tablename;
 
-        try (Connection connection = DriverManager.getConnection( url, userid, password );
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( sql ))
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try 
         {
+        	connection = JDBCConnector.getInstance();
+        	stmt = connection.createStatement();
+        	rs = stmt.executeQuery( sql );
+        	
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
             //  Get column names
@@ -50,6 +55,12 @@ public class TableContentFromDatabase extends JPanel
         {
             System.out.println( e.getMessage() );
         }
+        finally{
+            //try{rs.close();}catch(Exception e){}
+            //try{stmt.close();}catch(Exception e){}
+            //try{connection.close();}catch(Exception e){}
+        }
+        
         Vector columnNamesVector = new Vector();
         Vector dataVector = new Vector();
         for (int i = 0; i < data.size(); i++)
@@ -66,8 +77,9 @@ public class TableContentFromDatabase extends JPanel
         for (int i = 0; i < columnNames.size(); i++ )
             columnNamesVector.add(columnNames.get(i));
 
-        //  Create table with database data    
-        JTable table = new JTable(dataVector, columnNamesVector)
+        //  Create table with database data  
+        
+        JTable table = new JTable(new CustomTableModel(dataVector, columnNamesVector)
         {
             public Class getColumnClass(int column)
             {
@@ -82,7 +94,9 @@ public class TableContentFromDatabase extends JPanel
                 }
                 return Object.class;
             }
-        };    
+        });  
+        table.setFocusable(false);
+        table.setRowSelectionAllowed(false);
         add( new JScrollPane( table ), BorderLayout.CENTER );
     }
 }
