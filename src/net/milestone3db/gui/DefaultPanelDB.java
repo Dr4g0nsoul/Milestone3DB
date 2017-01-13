@@ -9,7 +9,7 @@ import java.awt.Font;
 public class DefaultPanelDB extends JPanel {
 
 	/**
-	 * Create the panel.
+	 * Create the panel
 	 */
 	public DefaultPanelDB() {
 		setLayout(null);
