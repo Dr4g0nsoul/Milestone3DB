@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.table.DefaultTableModel;
-
 public class Utility {
 	public static boolean search(String s, String table) throws SQLException{
 		Connection con = JDBCConnector.getInstance();
