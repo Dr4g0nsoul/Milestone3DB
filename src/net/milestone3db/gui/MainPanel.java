@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -31,12 +33,18 @@ public class MainPanel extends JFrame{
 		
 		listPanel = new JPanel();
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-		listPanel.setBackground(Color.red);
+		//listPanel.setBackground(Color.red);
 		listPanel.setPreferredSize(new Dimension(400, 800));
 		listPanel.add(new JLabel("DB-Tables"));
-		for(String s:Utility.getTableNames()) {
-			JLabel currentLabel = new JLabel(s);
-			
+		for(String tableName : Utility.getTableNames()) {
+			JLabel currentLabel = new JLabel(tableName);
+			currentLabel.addMouseListener(new MouseAdapter() {
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					changeContentPanel(((JLabel)e.getSource()).getText(),(JLabel)e.getSource());
+				}
+			});
 			listPanel.add(currentLabel);
 		}
 		
@@ -63,5 +71,23 @@ public class MainPanel extends JFrame{
 		setResizable(false);
 		setVisible(true);
 		pack();
+	}
+	
+	public void changeContentPanel(String tableName, JLabel selected) {
+		
+		for(int i = 0; i<listPanel.getComponentCount(); i++) {
+			if(((JLabel)listPanel.getComponent(i))==selected) {
+				selected.setForeground(Color.pink);
+			} else
+				((JLabel)listPanel.getComponent(i)).setForeground(Color.black);
+		}
+		
+		contentPanel.removeAll();
+		//Eigenes panel zuitian
+		switch(tableName) {
+		case "language":
+			contentPanel.add(new LanguagePanel());
+			break;
+		}
 	}
 }
