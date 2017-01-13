@@ -1,3 +1,4 @@
+package net.milestone3db.gui;
 
 
 import java.awt.BorderLayout;
@@ -12,8 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.milestone3db.gui.LanguagePanel;
-import net.milestone3db.gui.TableContentFromDatabase;
 import net.milestone3db.jdbc.Utility;
 
 @SuppressWarnings("serial")
