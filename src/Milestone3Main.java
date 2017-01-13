@@ -7,12 +7,14 @@ public class Milestone3Main {
 
 	public static void main(String[] args) {
 
+		/*
 		try {
 			Utility.search("select * from game", null);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		
 		new MainPanel();
 		
