@@ -14,6 +14,7 @@ public class DefaultPanel extends JFrame{
 	public static JPanel rightPanel;
 	public static JPanel righttopPanel;
 	public static JPanel rightbottomPanel;
+	
 	public DefaultPanel()  {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocation(50, 50);
