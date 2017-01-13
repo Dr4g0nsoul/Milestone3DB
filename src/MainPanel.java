@@ -83,13 +83,10 @@ public class MainPanel extends JFrame{
 			} else
 				((JLabel)listPanel.getComponent(i)).setForeground(Color.black);
 		}
-		
 		contentPanel.removeAll();
-		//Eigenes panel zuitian
-			contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.NORTH);
-			contentPanel.add(new LanguagePanel(), BorderLayout.SOUTH);
-			//contentPanel.repaint();
-			contentPanel.revalidate();
+		contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.NORTH);
+		contentPanel.add(new LanguagePanel(), BorderLayout.SOUTH);
+		contentPanel.revalidate();
 		
 	}
 }
