@@ -68,23 +68,23 @@ public class Utility {
 		//Prepare stuff for the TableModel
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int colc = rsmd.getColumnCount();
-		Vector<Vector<?>> data = new Vector<>();
+		Vector<Vector<?>> rows = new Vector<>();
 		Vector<String> columns = new Vector<>();
 		Vector<Object> fields = new Vector<>();
-		//Get column names and prepare them for the TableModel
+		//Get column names and prepare it for the TableModel
 		for(int i = 1; i <= colc; i++){
 			columns.add(rsmd.getColumnTypeName(i));
 		}
-		//Get data and prepare them for the TableModel
+		//Get data and prepare it for the TableModel
 		while(rs.next()){
 			fields = new Vector<>();
 			for(int i = 1; i <= colc; i++){
 				fields.add(rs.getString(i));
 			}
-			data.add(fields);
+			rows.add(fields);
 		}
 		//Add data to TableModel
-		ret.setDataVector(data, columns);
+		ret.setDataVector(rows, columns);
 		return ret;
 	}
 	
