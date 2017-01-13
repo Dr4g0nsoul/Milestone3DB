@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class JDBCConnector {
 	
-	private static final String url = "jdbc:postgresql://localhost/steam";
+	private static final String url = "jdbc:postgresql://localhost:5432/steam";
 	private static final String user = "postgres";
 	private static final String password = "masterkey";
 	private static Connection connection = null;
@@ -16,7 +16,7 @@ public class JDBCConnector {
 	}
 	
 	public static Connection getInstance() throws SQLException  {
-		if(connection!=null) {
+		if(connection==null) {
 			connection = DriverManager.getConnection(url, user, password);
 		}
 		return connection;
