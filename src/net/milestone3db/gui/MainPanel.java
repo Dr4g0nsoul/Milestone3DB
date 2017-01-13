@@ -84,11 +84,9 @@ public class MainPanel extends JFrame{
 		}
 		
 		contentPanel.removeAll();
-		//Eigenes panel zuitian
-			contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.NORTH);
-			contentPanel.add(new LanguagePanel(), BorderLayout.SOUTH);
-			//contentPanel.repaint();
-			contentPanel.revalidate();
+		contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.NORTH);
+		contentPanel.add(new SearchInsertUpdateDelete(tableName), BorderLayout.SOUTH);
+		contentPanel.revalidate();
 		
 	}
 }
