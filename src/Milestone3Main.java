@@ -1,6 +1,6 @@
 import java.sql.SQLException;
 
-import net.milestone3db.gui.DefaultPanel;
+import net.milestone3db.gui.MainPanel;
 import net.milestone3db.jdbc.Utility;
 
 public class Milestone3Main {
@@ -14,7 +14,7 @@ public class Milestone3Main {
 			e.printStackTrace();
 		}
 		
-		new DefaultPanel();
+		new MainPanel();
 		
 	}
 }
