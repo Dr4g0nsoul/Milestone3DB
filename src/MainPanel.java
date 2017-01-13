@@ -1,4 +1,4 @@
-package net.milestone3db.gui;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -84,10 +84,10 @@ public class MainPanel extends JFrame{
 		
 		contentPanel.removeAll();
 		//Eigenes panel zuitian
-		switch(tableName) {
-		case "language":
-			contentPanel.add(new LanguagePanel());
-			break;
-		}
+			contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.NORTH);
+			contentPanel.add(new LanguagePanel(), BorderLayout.SOUTH);
+			//contentPanel.repaint();
+			contentPanel.revalidate();
+		
 	}
 }
