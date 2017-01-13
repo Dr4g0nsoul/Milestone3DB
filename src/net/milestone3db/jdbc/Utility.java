@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Utility {
 	public static boolean search(String s, String table) throws SQLException{
@@ -34,6 +35,22 @@ public class Utility {
 	public static boolean update (String q){
 		System.out.println(q);
 		return false;
+	}
+	
+	public static ArrayList<String> getTableNames(){
+		ArrayList<String> ret = new ArrayList<>();
+		try{
+		Connection con = JDBCConnector.getInstance();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT table_name"
+				+ " FROM information_schema.tables"
+				+ " WHERE table_schema='public'"
+				+ " AND table_type='BASE TABLE';");
+		while(rs.next()){
+			ret.add(rs.getString(1));
+		}
+		} catch (SQLException e) {;}
+		return ret;
 	}
 	
 }

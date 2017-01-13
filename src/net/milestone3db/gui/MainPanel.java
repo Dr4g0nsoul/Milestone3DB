@@ -4,8 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import net.milestone3db.jdbc.Utility;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JFrame{
@@ -25,10 +30,15 @@ public class MainPanel extends JFrame{
 		mainPanel.setLayout(new BorderLayout());
 		
 		listPanel = new JPanel();
-		listPanel.setLayout(new FlowLayout());
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		listPanel.setBackground(Color.red);
 		listPanel.setPreferredSize(new Dimension(400, 800));
-		
+		listPanel.add(new JLabel("DB-Tables"));
+		for(String s:Utility.getTableNames()) {
+			JLabel currentLabel = new JLabel(s);
+			
+			listPanel.add(currentLabel);
+		}
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
