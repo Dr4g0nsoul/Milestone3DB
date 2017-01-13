@@ -20,6 +20,8 @@ public class InsertUpdateDialog extends JDialog{
 		
 		JLabel lblInsertData = new JLabel("Insert data");
 		lblInsertData.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		if(!inserting)
+			lblInsertData.setText("Update data");
 		lblInsertData.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblInsertData, BorderLayout.NORTH);
 		
