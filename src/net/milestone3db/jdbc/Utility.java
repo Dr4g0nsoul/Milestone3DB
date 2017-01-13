@@ -10,7 +10,11 @@ public class Utility {
 		Connection con = JDBCConnector.getInstance();
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery(s);
-		System.out.println(s);
+		while(rs.next()){
+			System.out.println(rs.getString(1));
+			System.out.println(rs.getString(2));
+		}
+		System.out.println();
 		return false;
 	}
 	
