@@ -55,36 +55,49 @@ public class Utility {
 		return ret;
 	}
 	
-	public static CustomTableModel dbtabletotable(String table, String filter) throws SQLException{
+	public static CustomTableModel dbtabletotable(String table, String filter){
 		CustomTableModel ret = new CustomTableModel();
-		Connection con = JDBCConnector.getInstance();
-		Statement stmt = con.createStatement();
+		Connection con = null;
+		Statement stmt = null;
 		ResultSet rs = null;
-		if(filter != null && filter.length() > 0){
-			rs = stmt.executeQuery("SELECT * FROM "+table+" "+filter);
-		}else
-			rs = stmt.executeQuery("SELECT * FROM "+table);
-		
-		//Prepare stuff for the TableModel
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int colc = rsmd.getColumnCount();
-		Vector<Vector<?>> rows = new Vector<>();
-		Vector<String> columns = new Vector<>();
-		Vector<Object> fields = new Vector<>();
-		//Get column names and prepare it for the TableModel
-		for(int i = 1; i <= colc; i++){
-			columns.add(rsmd.getColumnTypeName(i));
-		}
-		//Get data and prepare it for the TableModel
-		while(rs.next()){
-			fields = new Vector<>();
+		try {
+			con = JDBCConnector.getInstance();
+			stmt = con.createStatement();
+			if(filter != null && filter.length() > 0){
+				rs = stmt.executeQuery("SELECT * FROM "+table+" "+filter);
+			}else
+				rs = stmt.executeQuery("SELECT * FROM "+table);
+			
+			//Prepare stuff for the TableModel
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colc = rsmd.getColumnCount();
+			Vector<Vector<?>> rows = new Vector<>();
+			Vector<String> columns = new Vector<>();
+			Vector<Object> fields = new Vector<>();
+			
+			//Get column names and prepare them for the TableModel
 			for(int i = 1; i <= colc; i++){
-				fields.add(rs.getString(i));
+				columns.add(rsmd.getColumnTypeName(i));
 			}
-			rows.add(fields);
+			
+			//Get data and prepare it for the TableModel
+			while(rs.next()){
+				fields = new Vector<>();
+				for(int i = 1; i <= colc; i++){
+					fields.add(rs.getString(i));
+				}
+				rows.add(fields);
+			}
+			
+			//Add data to TableModel
+			ret.setDataVector(rows, columns);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try{rs.close();}catch(Exception e){}
+			try{stmt.close();}catch(Exception e){}
+			try{con.close();}catch(Exception e){}
 		}
-		//Add data to TableModel
-		ret.setDataVector(rows, columns);
 		return ret;
 	}
 	
