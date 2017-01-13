@@ -2,9 +2,13 @@ package net.milestone3db.jdbc;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 public class Utility {
 	public static boolean search(String s, String table) throws SQLException{
@@ -53,4 +57,36 @@ public class Utility {
 		return ret;
 	}
 	
+	public static DefaultTableModel dbtabletotable(String table, String filter) throws SQLException{
+		DefaultTableModel ret = new DefaultTableModel();
+		Connection con = JDBCConnector.getInstance();
+		Statement stmt = con.createStatement();
+		ResultSet rs = null;
+		if(filter != null && filter.length() > 0){
+			rs = stmt.executeQuery("SELECT * FROM "+table+" "+filter);
+		}else
+			rs = stmt.executeQuery("SELECT * FROM "+table);
+		
+		//Prepare stuff for the TableModel
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int colc = rsmd.getColumnCount();
+		Vector<Vector<?>> data = new Vector<>();
+		Vector<String> columns = new Vector<>();
+		Vector<Object> fields = new Vector<>();
+		//Get column names and prepare them for the TableModel
+		for(int i = 1; i <= colc; i++){
+			columns.add(rsmd.getColumnTypeName(i));
+		}
+		//Get data and prepare them for the TableModel
+		while(rs.next()){
+			fields = new Vector<>();
+			for(int i = 1; i <= colc; i++){
+				fields.add(rs.getString(i));
+			}
+			data.add(fields);
+		}
+		//Add data to TableModel
+		ret.setDataVector(data, columns);
+		return ret;
+	}
 }
