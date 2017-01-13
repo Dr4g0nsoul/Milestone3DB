@@ -25,6 +25,8 @@ public class InsertUpdateDialog extends JDialog{
 
 	public InsertUpdateDialog(String tableName, ArrayList<String> data, boolean inserting) {
 		
+		setBounds(20, 20, 800, 500);
+		
 		JLabel lblInsertData = new JLabel("Insert data");
 		lblInsertData.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		if(!inserting)
@@ -81,6 +83,7 @@ public class InsertUpdateDialog extends JDialog{
 		JButton btnCancel = new JButton("Cancel");
 		panelButtons.add(btnCancel);
 		
+		setModal(true);
 		setVisible(true);
 	}
 	
