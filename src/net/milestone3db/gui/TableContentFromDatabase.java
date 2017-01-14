@@ -4,7 +4,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.event.*;
 
 import net.milestone3db.jdbc.CustomTableModel;
 import net.milestone3db.jdbc.JDBCConnector;
@@ -15,9 +15,9 @@ public class TableContentFromDatabase extends JPanel
     public TableContentFromDatabase(String tablename)
     {
     	setLayout(new BorderLayout());
-    	setPreferredSize(new Dimension(1200, 500));
+    	setPreferredSize(new Dimension(1200, 700));
     	setBackground(Color.red);
-    	
+    		
         ArrayList columnNames = new ArrayList();
         ArrayList data = new ArrayList();
 
@@ -97,6 +97,61 @@ public class TableContentFromDatabase extends JPanel
         });  
         table.setFocusable(false);
         table.setRowSelectionAllowed(false);
+
         add( new JScrollPane( table ), BorderLayout.CENTER );
+        
+        table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+               if (e.getClickCount() == 2) {
+                  JTable target = (JTable) e.getSource();
+                  int row = target.getSelectedRow();
+                  StringBuilder header = new StringBuilder();
+                  StringBuilder data = new StringBuilder();
+                  String lineSeparator = System.getProperty("line.separator");
+                  header.append(columnNamesVector.toString() + lineSeparator);
+                  data.append(dataVector.elementAt(row).toString() + lineSeparator);
+                  TextFrame textFrame = new TextFrame(header.toString(), data.toString(), target.getColumnCount());
+                  textFrame.setVisible(true);
+               }
+            }
+         }); 
+    }
+    class TextFrame extends JFrame
+    {
+       public TextFrame(String header, String data, int length) {
+          super("EditFrame");
+          
+          JPanel mainPanel = new JPanel();
+          mainPanel.setLayout(new GridLayout(length, 2));
+          
+          header = header.replaceAll("\\[", "").replaceAll("\\]","").replaceAll(" ","");
+          String headerString[];
+          headerString = header.split(",");
+          
+          data = data.replaceAll("\\[", "").replaceAll("\\]","");
+          String dataString[];
+          dataString = data.split(",");
+          
+          JLabel[] labels=new JLabel[length];
+          JTextField[] fields=new JTextField[length];
+	      for (int i=0;i<length;i++){
+	          labels[i]=new JLabel(headerString[i]);
+	          fields[i]=new JTextField(dataString[i]);
+	      }
+	      
+	      for (int i=0;i<length;i++){
+	          mainPanel.add(labels[i]);
+	          mainPanel.add(fields[i]);
+	      }
+          
+          getContentPane().add(mainPanel);
+          addWindowListener(new WindowAdapter() {
+             public void windowClosing(WindowEvent we) {
+                dispose();
+             }
+          });
+          setLocation(50, 50);
+          setSize(500, 70*length);
+       }
     }
 }
