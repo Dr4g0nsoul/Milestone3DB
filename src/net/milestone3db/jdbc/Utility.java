@@ -9,23 +9,48 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class Utility {
-	public static boolean search(String s, String table) throws SQLException{
-		Connection con = JDBCConnector.getInstance();
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(s);
-		while(rs.next()){
-			System.out.println(rs.getString(1));
-			System.out.println(rs.getString(2));
-		}
+	public static boolean search(String s, String table){
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			con = JDBCConnector.getInstance();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(s);
+			while(rs.next()){
+				System.out.println(rs.getString(1));
+				System.out.println(rs.getString(2));
+			}
 		System.out.println();
+		} catch (SQLException e) {
+			System.out.println("SQLException in Utility.search");
+		} finally {
+			try {
+				rs.close();
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {;}
+		}
 		return false;
 	}
 	
-	public static boolean insert (String q) throws SQLException{
-		Connection con = JDBCConnector.getInstance();
-		Statement stmt = con.createStatement();
-		int addedRows = stmt.executeUpdate(q);
-		System.out.println(q);
+	public static boolean insert (String q) {
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = JDBCConnector.getInstance();
+			stmt = con.createStatement();
+			int addedRows = stmt.executeUpdate(q);
+			System.out.println(addedRows+" rows changed");
+			System.out.println(q);
+		} catch (SQLException e) {
+		System.out.println("SQLException in Utility.search");
+		} finally {
+			try {
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {;}
+		}
 		return false;
 	}
 	
