@@ -1,11 +1,9 @@
 package net.milestone3db.gui;
 
 import java.awt.*;
-import java.awt.List;
 import java.sql.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.*;
 import java.awt.event.*;
 
 import net.milestone3db.jdbc.CustomTableModel;
@@ -17,9 +15,9 @@ public class TableContentFromDatabase extends JPanel
     public TableContentFromDatabase(String tablename)
     {
     	setLayout(new BorderLayout());
-    	setPreferredSize(new Dimension(1200, 500));
+    	setPreferredSize(new Dimension(1200, 700));
     	setBackground(Color.red);
-    	
+    		
         ArrayList columnNames = new ArrayList();
         ArrayList data = new ArrayList();
 
@@ -99,6 +97,7 @@ public class TableContentFromDatabase extends JPanel
         });  
         table.setFocusable(false);
         table.setRowSelectionAllowed(false);
+
         add( new JScrollPane( table ), BorderLayout.CENTER );
         
         table.addMouseListener(new MouseAdapter() {

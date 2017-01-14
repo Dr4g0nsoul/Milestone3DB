@@ -55,11 +55,11 @@ public class MainPanel extends JFrame{
 		righttopPanel = new JPanel();
 		righttopPanel.setLayout(new FlowLayout());
 		righttopPanel.setBackground(Color.blue);
-		righttopPanel.setPreferredSize(new Dimension(1200, 500));
+		righttopPanel.setPreferredSize(new Dimension(1200, 100));
 		rightbottomPanel = new JPanel();
 		rightbottomPanel.setLayout(new BorderLayout());
 		rightbottomPanel.setBackground(Color.green);
-		rightbottomPanel.setPreferredSize(new Dimension(1200, 300));
+		rightbottomPanel.setPreferredSize(new Dimension(1200, 700));
 				
 		contentPanel.add(righttopPanel, BorderLayout.NORTH);
 		contentPanel.add(rightbottomPanel, BorderLayout.SOUTH);
@@ -84,8 +84,8 @@ public class MainPanel extends JFrame{
 		}
 		
 		contentPanel.removeAll();
-		contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.NORTH);
-		//contentPanel.add(new SearchInsertUpdateDelete(tableName), BorderLayout.SOUTH);
+		contentPanel.add(new Searchbar(tableName), BorderLayout.NORTH);
+		contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.SOUTH);
 		contentPanel.revalidate();
 		
 	}
