@@ -27,8 +27,14 @@ public class InsertUpdateDialog extends JDialog{
 	
 	public ArrayList<ItemPanel> items = null;
 	
-	
-	public InsertUpdateDialog(String tableName, ArrayList<String> data, boolean inserting) {
+	/**
+	 * A dialog that manages inserting and updating data
+	 * @param tableName name of the table to work with
+	 * @param data ArrayList of strings that has the data in it
+	 * @param types ArrayList of strings that has the data-types in it (number,string,default)
+	 * @param inserting true if you want to insert, false if you want to update
+	 */
+	public InsertUpdateDialog(String tableName, ArrayList<String> data, ArrayList<String> types, boolean inserting) {
 		
 		setBounds(20, 20, 800, 500);
 		
@@ -90,7 +96,12 @@ public class InsertUpdateDialog extends JDialog{
 				if(inserting) {
 					String insertString = "insert into "+tableName+" values (";
 					for(int i = 0;i<items.size();i++) {
-						insertString+="'"+"',";
+						if(types.get(i).toLowerCase().contains("string"))
+							insertString+="'"+items.get(i).getItemValue()+"',";
+						if(types.get(i).toLowerCase().contains("number"))
+							insertString+=items.get(i).getItemValue()+",";
+						if(types.get(i).toLowerCase().contains("default"))
+							insertString+="DEFAULT"+",";
 					}
 					insertString+="\b";
 					insertString+=");";
