@@ -42,6 +42,7 @@ public class Utility {
 			stmt = con.createStatement();
 			int addedRows = stmt.executeUpdate(q);
 			System.out.println(addedRows+" rows changed");
+			System.out.println(q);
 		} catch (SQLException e) {
 		System.out.println("SQLException in Utility.search");
 		} finally {

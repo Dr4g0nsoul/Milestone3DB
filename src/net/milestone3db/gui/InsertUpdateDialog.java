@@ -105,7 +105,12 @@ public class InsertUpdateDialog extends JDialog{
 					}
 					insertString+="\b";
 					insertString+=");";
+					Utility.insert(insertString);
+				} else {
+					//TODO: Update
 				}
+				setVisible(false);
+				dispose();
 				
 			}
 		});
