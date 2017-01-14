@@ -23,6 +23,7 @@ public class MainPanel extends JFrame{
 	public static JPanel contentPanel;
 	public static JPanel righttopPanel;
 	public static JPanel rightbottomPanel;
+	private TableContentFromDatabase tcfd;
 	
 	public MainPanel()  {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -32,6 +33,7 @@ public class MainPanel extends JFrame{
 		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
+		
 		
 		listPanel = new JPanel();
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
@@ -84,10 +86,11 @@ public class MainPanel extends JFrame{
 			} else
 				((JLabel)listPanel.getComponent(i)).setForeground(Color.black);
 		}
+		tcfd = new TableContentFromDatabase(tableName);
 		
 		contentPanel.removeAll();
-		contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.SOUTH);
-		contentPanel.add(new Searchbar(tableName), BorderLayout.NORTH);
+		contentPanel.add(tcfd, BorderLayout.SOUTH);
+		contentPanel.add(new Searchbar(tcfd.getTable()), BorderLayout.NORTH);
 		contentPanel.revalidate();
 		
 	}

@@ -90,9 +90,9 @@ public class Utility {
 			stmt = con.createStatement();
 			if(filter != null && filter.length() > 0){
 				rs = stmt.executeQuery("SELECT * FROM "+table+" "+filter);
-			}else
+			}else{
 				rs = stmt.executeQuery("SELECT * FROM "+table);
-			
+			}
 			//Prepare stuff for the TableModel
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int colc = rsmd.getColumnCount();
@@ -102,7 +102,7 @@ public class Utility {
 			
 			//Get column names and prepare them for the TableModel
 			for(int i = 1; i <= colc; i++){
-				columns.add(rsmd.getColumnTypeName(i));
+				columns.add(rsmd.getColumnName(i));
 			}
 			
 			//Get data and prepare it for the TableModel
@@ -119,9 +119,9 @@ public class Utility {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
-			try{rs.close();}catch(Exception e){}
-			try{stmt.close();}catch(Exception e){}
-			try{con.close();}catch(Exception e){}
+			try{rs.close();}catch(Exception e){e.printStackTrace();}
+			try{stmt.close();}catch(Exception e){e.printStackTrace();}
+			try{con.close();}catch(Exception e){e.printStackTrace();}
 		}
 		return ret;
 	}

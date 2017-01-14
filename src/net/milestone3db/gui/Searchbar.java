@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableModel;
@@ -19,8 +20,9 @@ import net.milestone3db.jdbc.CustomTableModel;
 @SuppressWarnings("serial")
 public class Searchbar extends JPanel {
 	public static JTextField searchField;
-	private static TableRowSorter<CustomTableModel> rowSorter;
-	public Searchbar(String tablename) {
+	private TableRowSorter<TableModel> rowSorter;
+	
+	public Searchbar(JTable table) {
 		setLayout(new FlowLayout());
     	setPreferredSize(new Dimension(1200, 70));
         setBorder(BorderFactory.createMatteBorder(1,1,1,1, Color.black));
@@ -33,19 +35,27 @@ public class Searchbar extends JPanel {
 		add(searchField);
 		add(searchButton);
 		
-		//rowSorter not working; todo ^								////////////
-		//rowSorter = new TableRowSorter<CustomTableModel>();
-		TableContentFromDatabase.table.setRowSorter(rowSorter);
+		rowSorter = new TableRowSorter<TableModel>(table.getModel());
+		table.setRowSorter(rowSorter);
+		
+//		btnResetSearch.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				searchField.setText("");
+//				rowSorter.setRowFilter(null);
+//			}
+//		});
 		
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String text = searchField.getText();
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
+              if (text.trim().length() == 0) {
+                  rowSorter.setRowFilter(null);
+              } else {
+                  rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+              }
 			}
 		});
 	}

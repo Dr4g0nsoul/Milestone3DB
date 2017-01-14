@@ -16,7 +16,7 @@ public class JDBCConnector {
 	}
 	
 	public static Connection getInstance() throws SQLException  {
-		if(connection==null) {
+		if(connection==null || connection.isClosed()) {
 			connection = DriverManager.getConnection(url, user, password);
 		}
 		return connection;
