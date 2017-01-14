@@ -85,7 +85,7 @@ public class MainPanel extends JFrame{
 		
 		contentPanel.removeAll();
 		contentPanel.add(new TableContentFromDatabase(tableName), BorderLayout.NORTH);
-		contentPanel.add(new SearchInsertUpdateDelete(tableName), BorderLayout.SOUTH);
+		//contentPanel.add(new SearchInsertUpdateDelete(tableName), BorderLayout.SOUTH);
 		contentPanel.revalidate();
 		
 	}
