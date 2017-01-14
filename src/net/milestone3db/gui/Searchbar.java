@@ -30,6 +30,7 @@ public class Searchbar extends JPanel {
 		add(searchField);
 		add(searchButton);
 		
+		//rowSorter not working; todo ^								////////////
 		//rowSorter = new TableRowSorter<CustomTableModel>();
 		TableContentFromDatabase.table.setRowSorter(rowSorter);
 		
