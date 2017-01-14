@@ -12,6 +12,7 @@ import net.milestone3db.jdbc.JDBCConnector;
 @SuppressWarnings("serial")
 public class TableContentFromDatabase extends JPanel
 {
+	static JTable table;
     public TableContentFromDatabase(String tablename)
     {
     	setLayout(new BorderLayout());
@@ -79,7 +80,7 @@ public class TableContentFromDatabase extends JPanel
 
         //  Create table with database data  
         
-        JTable table = new JTable(new CustomTableModel(dataVector, columnNamesVector)
+        table = new JTable(new CustomTableModel(dataVector, columnNamesVector)
         {
             public Class getColumnClass(int column)
             {

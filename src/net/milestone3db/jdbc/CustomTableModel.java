@@ -3,10 +3,6 @@ package net.milestone3db.jdbc;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-/**
- * A custom TableModel. It prevents that fields are editable.
- * @author Philipp Rassele
- */
 public class CustomTableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
