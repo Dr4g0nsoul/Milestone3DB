@@ -4,9 +4,6 @@ import java.awt.*;
 //import java.sql.*;
 //import java.util.*;
 import javax.swing.*;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-
 import java.awt.event.*;
 import java.util.Arrays;
 
