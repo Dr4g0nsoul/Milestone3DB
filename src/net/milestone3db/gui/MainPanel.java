@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,6 +49,7 @@ public class MainPanel extends JFrame{
 			});
 			listPanel.add(currentLabel);
 		}
+		listPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Color.black));
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());

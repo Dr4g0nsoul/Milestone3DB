@@ -1,10 +1,12 @@
 package net.milestone3db.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,6 +23,7 @@ public class Searchbar extends JPanel {
 	public Searchbar(String tablename) {
 		setLayout(new FlowLayout());
     	setPreferredSize(new Dimension(1200, 70));
+        setBorder(BorderFactory.createMatteBorder(1,1,1,1, Color.black));
 		//setBackground(Color.black);
 		
 		searchField = new JTextField();

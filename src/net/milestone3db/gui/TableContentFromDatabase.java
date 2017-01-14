@@ -18,6 +18,7 @@ public class TableContentFromDatabase extends JPanel
     	setLayout(new BorderLayout());
     	setPreferredSize(new Dimension(1200, 700));
     	setBackground(Color.red);
+    	setBorder(BorderFactory.createMatteBorder(0,1,1,1, Color.black));
     		
         ArrayList columnNames = new ArrayList();
         ArrayList data = new ArrayList();
