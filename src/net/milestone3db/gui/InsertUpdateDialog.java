@@ -24,6 +24,7 @@ import net.milestone3db.jdbc.JDBCConnector;
 import net.milestone3db.jdbc.Utility;
 
 public class InsertUpdateDialog extends JDialog{
+	ArrayList<String> names = null;
 	
 	public ArrayList<ItemPanel> items = null;
 	
@@ -49,7 +50,6 @@ public class InsertUpdateDialog extends JDialog{
 		panelContent.setLayout(new BoxLayout(panelContent, BoxLayout.Y_AXIS));
 		
 		//START CREATING panelContent
-		ArrayList<String> names = null;
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -107,7 +107,20 @@ public class InsertUpdateDialog extends JDialog{
 					insertString+=");";
 					Utility.insert(insertString);
 				} else {
-					//TODO: Update
+					String updateString = "update "+tableName+" set ";
+					for(int i = 0;i<items.size();i++) {
+						if(types.get(i).toLowerCase().contains("string"))
+							updateString+=names.get(i)+"='"+items.get(i).getItemValue()+"',";
+						if(types.get(i).toLowerCase().contains("number"))
+							updateString+=names.get(i)+"="+items.get(i).getItemValue()+",";
+						if(types.get(i).toLowerCase().contains("default"))
+							updateString+=names.get(i)+"="+"DEFAULT"+",";
+					}
+					updateString+="\b";
+					//------------Not sure if it is right
+					updateString+="where "+names.get(0)+"="+data.get(0);
+					//------------
+					Utility.update(updateString);
 				}
 				setVisible(false);
 				dispose();
