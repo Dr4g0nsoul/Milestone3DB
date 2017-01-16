@@ -58,16 +58,15 @@ public class MainPanel extends JFrame{
 		
 		righttopPanel = new JPanel();
 		righttopPanel.setLayout(new FlowLayout());
-		righttopPanel.setBackground(Color.blue);
+		//righttopPanel.setBackground(Color.blue);
 		righttopPanel.setPreferredSize(new Dimension(1200, 100));
 		rightbottomPanel = new JPanel();
 		rightbottomPanel.setLayout(new BorderLayout());
-		rightbottomPanel.setBackground(Color.green);
+		//rightbottomPanel.setBackground(Color.green);
 		rightbottomPanel.setPreferredSize(new Dimension(1200, 700));
 				
-		contentPanel.add(righttopPanel, BorderLayout.NORTH);
-		contentPanel.add(rightbottomPanel, BorderLayout.SOUTH);
-		
+		tcfd = new TableContentFromDatabase("publisher");
+		contentPanel.add(new Searchbar(tcfd.getTable()), BorderLayout.NORTH);
 		
 		mainPanel.add(listPanel, BorderLayout.WEST);
 		mainPanel.add(contentPanel, BorderLayout.EAST);

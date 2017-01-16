@@ -25,7 +25,7 @@ public class TableContentFromDatabase extends JPanel
     public JTable getTable() {
 		return table;
 	}
-
+    //table(edit update etc) buggy after searchrequest.
 	public TableContentFromDatabase(String tablename)
     {
 		tablenameTMP = tablename;
