@@ -44,7 +44,7 @@ public class TableContentFromDatabase extends JPanel
         
         //Listener
         //click table to choose elements then right click to get menu
-        table.addMouseListener(new MouseListener() {
+        table.addMouseListener(new MouseAdapter() {
 			JFrame rightFrame;
 			@Override
 			public void mouseReleased(MouseEvent event) {
@@ -72,21 +72,20 @@ public class TableContentFromDatabase extends JPanel
 						JLabel titleLabel = new JLabel("Edit");
 						titleLabel.setFont(new Font(titleLabel.getName(), Font.BOLD, 16));
 						titleLabel.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+						
 						JLabel editLabel = new JLabel("Edit/Update");
 						editLabel.setFont(new Font(editLabel.getName(), Font.PLAIN, 11));
-						editLabel.addMouseListener(new MouseListener() {
-							@Override
-							public void mouseReleased(MouseEvent e) {
-							}
-							@Override
-							public void mousePressed(MouseEvent e) {
-							}
-							@Override
-							public void mouseExited(MouseEvent e) {
-							}
-							@Override
-							public void mouseEntered(MouseEvent e) {
-							}
+						
+						JLabel insertLabel = new JLabel("Insert");
+						insertLabel.setFont(new Font(insertLabel.getName(), Font.PLAIN, 11));
+						
+						JLabel deleteLabel = new JLabel("Delete");
+						deleteLabel.setFont(new Font(deleteLabel.getName(), Font.PLAIN, 11));
+						
+						//Listener
+						
+						//edit/update MouseListener
+						editLabel.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								rightFrame.dispose();
@@ -106,7 +105,7 @@ public class TableContentFromDatabase extends JPanel
 								 */
 								for(int i=lines.length-1; i>=0; i--) {
 									for(int j = 0; j < table.getColumnCount(); j++){
-										data.append(table.getValueAt(lines[i], j)+",");
+										data.append(table.getModel().getValueAt(lines[i], j)+",");
 									}
 								}
 								
@@ -119,21 +118,9 @@ public class TableContentFromDatabase extends JPanel
 								textFrame.setVisible(true);
 							}
 						});
-						JLabel insertLabel = new JLabel("Insert");
-						insertLabel.setFont(new Font(insertLabel.getName(), Font.PLAIN, 11));
-						insertLabel.addMouseListener(new MouseListener() {
-							@Override
-							public void mouseReleased(MouseEvent e) {
-							}
-							@Override
-							public void mousePressed(MouseEvent e) {
-							}
-							@Override
-							public void mouseExited(MouseEvent e) {
-							}
-							@Override
-							public void mouseEntered(MouseEvent e) {
-							}
+						
+						//insert MouseListener
+						insertLabel.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								rightFrame.dispose();
@@ -155,21 +142,9 @@ public class TableContentFromDatabase extends JPanel
 								textFrame.setVisible(true);
 							}
 						});
-						JLabel deleteLabel = new JLabel("Delete");
-						deleteLabel.setFont(new Font(deleteLabel.getName(), Font.PLAIN, 11));
-						deleteLabel.addMouseListener(new MouseListener() {
-							@Override
-							public void mouseReleased(MouseEvent e) {
-							}
-							@Override
-							public void mousePressed(MouseEvent e) {
-							}
-							@Override
-							public void mouseExited(MouseEvent e) {
-							}
-							@Override
-							public void mouseEntered(MouseEvent e) {
-							}
+						
+						//delete MouseListener
+						deleteLabel.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								rightFrame.dispose();
@@ -189,7 +164,7 @@ public class TableContentFromDatabase extends JPanel
 								 */
 								for(int i=lines.length-1; i>=0; i--) {
 									for(int j = 0; j < table.getColumnCount(); j++){
-										data.append(table.getValueAt(lines[i], j)+",");
+										data.append(table.getModel().getValueAt(lines[i], j)+",");
 									}
 								}
 								
@@ -197,9 +172,11 @@ public class TableContentFromDatabase extends JPanel
 								for(int i = 0; i < table.getColumnCount(); i++){
 									header.append(table.getColumnName(i)+",");
 								}
+								//TODO remove row from the view if the SQL delete command succeeds (what it should always)
 								Delete delete = new Delete(header.toString(), data.toString(), table.getColumnCount());
 							}
 						});
+						
 						mainPanel.add(titleLabel);
 						mainPanel.add(editLabel);
 						mainPanel.add(insertLabel);
@@ -210,26 +187,6 @@ public class TableContentFromDatabase extends JPanel
 						rightFrame.setVisible(true);
 					}
 				}
-			}
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		});	
     }
@@ -274,6 +231,7 @@ public class TableContentFromDatabase extends JPanel
 			setSize(500, 70 * length);
 		}
 	}
+	
 	private class InsertFrame extends JDialog {
 		public InsertFrame(String header, String data, int length) {
 			setTitle("InsertFrame");
@@ -314,6 +272,7 @@ public class TableContentFromDatabase extends JPanel
 			setSize(500, 70 * length);
 		}
 	}
+	
 	private class Delete {
 		public Delete(String header, String data, int length) {
 			System.out.println("Delete: " + tablenameTMP);
