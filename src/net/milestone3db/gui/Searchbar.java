@@ -31,21 +31,23 @@ public class Searchbar extends JPanel {
 		searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension(700, 30));
 		JButton searchButton = new JButton("Search");
+		JButton resetButton = new JButton("Reset");
 		
 		add(searchField);
 		add(searchButton);
+		add(resetButton);
 		
 		rowSorter = new TableRowSorter<TableModel>(table.getModel());
 		table.setRowSorter(rowSorter);
 		
-//		btnResetSearch.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				searchField.setText("");
-//				rowSorter.setRowFilter(null);
-//			}
-//		});
+		resetButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchField.setText("");
+				rowSorter.setRowFilter(null);
+			}
+		});
 		
 		searchButton.addActionListener(new ActionListener() {
 			@Override
