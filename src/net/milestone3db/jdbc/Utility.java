@@ -40,11 +40,11 @@ public class Utility {
 		try {
 			con = JDBCConnector.getInstance();
 			stmt = con.createStatement();
+			System.out.println(q);
 			int addedRows = stmt.executeUpdate(q);
 			System.out.println(addedRows+" rows changed");
-			System.out.println(q);
 		} catch (SQLException e) {
-		System.out.println("SQLException in Utility.search");
+		System.out.println("SQLException in Utility.insert: "+e.getMessage());
 		} finally {
 			try {
 				stmt.close();

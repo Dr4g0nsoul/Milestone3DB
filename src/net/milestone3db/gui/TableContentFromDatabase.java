@@ -148,9 +148,16 @@ public class TableContentFromDatabase extends JPanel
 								for(int i = 0; i < table.getColumnCount(); i++){
 									header.append(table.getColumnName(i)+",");
 								}
+								
+								//Replacing InsertFrame
+								/*
 								InsertFrame textFrame = new InsertFrame(header.toString(), header.toString(), table.getColumnCount());
 								textFrame.setBounds(p.x, p.y, textFrame.getWidth(), textFrame.getHeight());
 								textFrame.setVisible(true);
+								*/
+								
+								InsertUpdateDialog updateDialog = new InsertUpdateDialog(tablename, null, true);
+								//End replacing InsertFrame
 							}
 						});
 						

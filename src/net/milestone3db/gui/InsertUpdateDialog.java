@@ -4,6 +4,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.TextField;
@@ -83,7 +84,11 @@ public class InsertUpdateDialog extends JDialog{
 		if(names!=null){
 			items = new ArrayList<>();
 			for(int i = 0; i<names.size(); i++) {
-				ItemPanel currentIPanel = new ItemPanel(names.get(i), data.get(i));
+				ItemPanel currentIPanel = null;
+				if(inserting)
+					currentIPanel = new ItemPanel(names.get(i), "");
+				else
+					currentIPanel = new ItemPanel(names.get(i), data.get(i));
 				items.add(currentIPanel);
 				panelContent.add(currentIPanel);
 			}
@@ -108,7 +113,7 @@ public class InsertUpdateDialog extends JDialog{
 						else
 							insertString+=items.get(i).getItemValue()+",";
 					}
-					insertString+="\b";
+					insertString=insertString.substring(0, insertString.length()-1);
 					insertString+=");";
 					Utility.insert(insertString);
 				} else {
@@ -160,6 +165,7 @@ public class InsertUpdateDialog extends JDialog{
 			add(new JLabel(name+": "));
 			
 			itemField = new JTextField(value);
+			itemField.setPreferredSize(new Dimension(300, 50));
 			add(itemField);
 			itemName = name;
 			
