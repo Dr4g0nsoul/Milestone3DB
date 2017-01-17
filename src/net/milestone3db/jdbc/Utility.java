@@ -35,6 +35,7 @@ public class Utility {
 	}
 	
 	public static boolean insert (String q) {
+		boolean ret = false;
 		Connection con = null;
 		Statement stmt = null;
 		try {
@@ -43,15 +44,16 @@ public class Utility {
 			System.out.println(q);
 			int addedRows = stmt.executeUpdate(q);
 			System.out.println(addedRows+" rows changed");
+			ret = true;
 		} catch (SQLException e) {
-		System.out.println("SQLException in Utility.insert: "+e.getMessage());
+			System.out.println("SQLException in Utility.insert: "+e.getMessage());
 		} finally {
 			try {
 				stmt.close();
 				con.close();
 			} catch (SQLException e) {;}
 		}
-		return false;
+		return ret;
 	}
 	
 	public static boolean delete (String q){

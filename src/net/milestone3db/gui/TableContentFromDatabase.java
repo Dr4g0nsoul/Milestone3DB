@@ -5,6 +5,7 @@ import java.awt.*;
 //import java.sql.*;
 //import java.util.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ public class TableContentFromDatabase extends JPanel
 									header.append(table.getColumnName(i)+",");
 								}
 								//TODO remove row from the view if the SQL delete command succeeds (what it should always)
-								delete(tablename,header.toString().split(",")[0], data.toString().split(",")[0]);
+								delete(tablename,header.toString().split(",")[0], data.toString().split(",")[0], table, lines);
 							}
 						});
 						
@@ -291,8 +292,11 @@ public class TableContentFromDatabase extends JPanel
 		}
 	}
 	
-		public static void delete(String tableName,String name, String data) {
-			Utility.insert("DELETE FROM " +tableName+" WHERE "+name+"="+data);
-			//todo:  delete table where header = data
+		public static void delete(String tableName,String name, String data, JTable table, int[] lines) {
+			if(Utility.insert("DELETE FROM " +tableName+" WHERE "+name+"="+data)){
+				for(int i = 0; i < lines.length; i++){
+					((DefaultTableModel)table.getModel()).removeRow(lines[i]);
+				}
+			}
 		}
 }
