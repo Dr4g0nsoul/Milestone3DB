@@ -64,8 +64,8 @@ public class InsertUpdateDialog extends JDialog{
 			int numberOfColumns = rs.getMetaData().getColumnCount();
 			names = new ArrayList<>();
 			types = new ArrayList<>();
-			System.out.println("InsertUpdateDialog: "+tableName);
-			System.out.println("Varchar = "+Types.VARCHAR);
+			//System.out.println("InsertUpdateDialog: "+tableName);
+			//System.out.println("Varchar = "+Types.VARCHAR);
 			for(int i = 0; i<numberOfColumns; i++) {
 				names.add(rs.getMetaData().getColumnLabel(i+1));
 				types.add(rs.getMetaData().getColumnType(i+1));
@@ -128,7 +128,7 @@ public class InsertUpdateDialog extends JDialog{
 					//------------Not sure if it is right
 					updateString+="where "+names.get(0)+"="+data.get(0);
 					//------------
-					Utility.update(updateString);
+					Utility.insert(updateString);
 				}
 				setVisible(false);
 				dispose();
