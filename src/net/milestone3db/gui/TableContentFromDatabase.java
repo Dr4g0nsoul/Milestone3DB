@@ -191,7 +191,7 @@ public class TableContentFromDatabase extends JPanel
 									header.append(table.getColumnName(i)+",");
 								}
 								//TODO remove row from the view if the SQL delete command succeeds (what it should always)
-								Delete delete = new Delete(header.toString(), data.toString(), table.getColumnCount());
+								delete(tablename,header.toString().split(",")[0], data.toString().split(",")[0]);
 							}
 						});
 						
@@ -291,10 +291,8 @@ public class TableContentFromDatabase extends JPanel
 		}
 	}
 	
-	private class Delete {
-		public Delete(String header, String data, int length) {
-			System.out.println("Delete: " + tablenameTMP);
+		public static void delete(String tableName,String name, String data) {
+			Utility.insert("DELETE FROM " +tableName+" WHERE "+name+"="+data);
 			//todo:  delete table where header = data
 		}
-	}
 }

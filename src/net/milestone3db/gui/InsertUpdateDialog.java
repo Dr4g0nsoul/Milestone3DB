@@ -100,7 +100,6 @@ public class InsertUpdateDialog extends JDialog{
 		getContentPane().add(panelButtons, BorderLayout.SOUTH);
 		
 		JButton btnSave = new JButton("Save");
-		//TODO: Add listener for insert and update
 		btnSave.addActionListener(new ActionListener() {
 			
 			@Override
