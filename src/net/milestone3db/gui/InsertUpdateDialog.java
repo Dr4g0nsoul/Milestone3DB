@@ -17,6 +17,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -102,7 +103,7 @@ public class InsertUpdateDialog extends JDialog{
 				if(inserting) {
 					String insertString = "insert into "+tableName+" values (";
 					for(int i = 0;i<items.size();i++) {
-						if(types.get(i)==Types.VARCHAR)
+						if(types.get(i)==Types.VARCHAR||types.get(i)==Types.TIME||types.get(i)==Types.DATE)
 							insertString+="'"+items.get(i).getItemValue()+"',";
 						else
 							insertString+=items.get(i).getItemValue()+",";
@@ -113,12 +114,12 @@ public class InsertUpdateDialog extends JDialog{
 				} else {
 					String updateString = "update "+tableName+" set ";
 					for(int i = 0;i<items.size();i++) {
-						if(types.get(i)==Types.VARCHAR)
+						if(types.get(i)==Types.VARCHAR||types.get(i)==Types.TIME||types.get(i)==Types.DATE)
 							updateString+=names.get(i)+"='"+items.get(i).getItemValue()+"',";
 						else
 							updateString+=names.get(i)+"="+items.get(i).getItemValue()+",";
 					}
-					updateString+="\b";
+					updateString=updateString.substring(0, updateString.length()-1)+" ";
 					//------------Not sure if it is right
 					updateString+="where "+names.get(0)+"="+data.get(0);
 					//------------
@@ -151,15 +152,17 @@ public class InsertUpdateDialog extends JDialog{
 	private class ItemPanel extends JPanel
 	{
 		private String itemName;
-		private String itemValue;
+		private JTextField itemField;
 		
 		public ItemPanel(String name, String value) {
 			setLayout(new FlowLayout());
 			
 			add(new JLabel(name+": "));
-			add(new TextField(value));
+			
+			itemField = new JTextField(value);
+			add(itemField);
 			itemName = name;
-			itemValue = value;
+			
 			
 			setVisible(true);
 		}
@@ -169,7 +172,7 @@ public class InsertUpdateDialog extends JDialog{
 		}
 		
 		public String getItemValue() {
-			return itemValue;
+			return itemField.getText();
 		}
 	}
 }
