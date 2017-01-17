@@ -7,7 +7,9 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+
 
 //import net.milestone3db.jdbc.CustomTableModel;
 //import net.milestone3db.jdbc.JDBCConnector;
@@ -113,9 +115,18 @@ public class TableContentFromDatabase extends JPanel
 								for(int i = 0; i < table.getColumnCount(); i++){
 									header.append(table.getColumnName(i)+",");
 								}
+								System.out.println(tablename);
+								System.out.println(data);
+								//Replacing editframe
+								/*
 								EditFrame textFrame = new EditFrame(header.toString(), data.toString(), table.getColumnCount());
 								textFrame.setBounds(p.x, p.y, textFrame.getWidth(), textFrame.getHeight());
 								textFrame.setVisible(true);
+								*/
+								
+								ArrayList<String> dataList = new ArrayList<>(Arrays.asList(data.toString().split(",")));
+								InsertUpdateDialog updateDialog = new InsertUpdateDialog(tablename, dataList, false);
+								//End replacing editframe
 							}
 						});
 						
