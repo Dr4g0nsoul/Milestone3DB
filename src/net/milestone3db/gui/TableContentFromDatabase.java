@@ -92,42 +92,52 @@ public class TableContentFromDatabase extends JPanel
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								rightFrame.dispose();
-								StringBuilder header = new StringBuilder();
-								StringBuilder data = new StringBuilder();
-								Point p = MouseInfo.getPointerInfo().getLocation();
-								
-								//Sort the selected lines such that they are conform to the underlying TableModel
-								int[] lines = table.getSelectedRows();
-								for (int i = 0; i < lines.length; i++) {
-									lines[i] = table.convertRowIndexToModel(lines[i]);
-								}
-								Arrays.sort(lines);
-								/*
-								 * Add data of selected lines (should only be one with our
-								 * configuration) to "data"
-								 */
-								for(int i=lines.length-1; i>=0; i--) {
-									for(int j = 0; j < table.getColumnCount(); j++){
-										data.append(table.getModel().getValueAt(lines[i], j)+",");
+								if(table.getSelectedColumn() != -1){
+									StringBuilder header = new StringBuilder();
+									StringBuilder data = new StringBuilder();
+									Point p = MouseInfo.getPointerInfo().getLocation();
+
+									// Sort the selected lines such that they
+									// are conform to the underlying TableModel
+									int[] lines = table.getSelectedRows();
+									for (int i = 0; i < lines.length; i++) {
+										lines[i] = table.convertRowIndexToModel(lines[i]);
 									}
+									Arrays.sort(lines);
+									/*
+									 * Add data of selected lines (should only
+									 * be one with our configuration) to "data"
+									 */
+									for (int i = lines.length - 1; i >= 0; i--) {
+										for (int j = 0; j < table.getColumnCount(); j++) {
+											data.append(table.getModel().getValueAt(lines[i], j) + ",");
+										}
+									}
+
+									// Add column names to header
+									for (int i = 0; i < table.getColumnCount(); i++) {
+										header.append(table.getColumnName(i) + ",");
+									}
+									System.out.println(tablename);
+									System.out.println(data);
+									// Replacing editframe
+									/*
+									 * EditFrame textFrame = new
+									 * EditFrame(header.toString(),
+									 * data.toString(), table.getColumnCount());
+									 * textFrame.setBounds(p.x, p.y,
+									 * textFrame.getWidth(),
+									 * textFrame.getHeight());
+									 * textFrame.setVisible(true);
+									 */
+
+									ArrayList<String> dataList = new ArrayList<>(
+											Arrays.asList(data.toString().split(",")));
+									new InsertUpdateDialog(tablename, dataList, false, table);
+									// End replacing editframe
+								}else{
+									JOptionPane.showMessageDialog(TableContentFromDatabase.this, "No column to edit selected", "Message", JOptionPane.INFORMATION_MESSAGE);
 								}
-								
-								//Add column names to header
-								for(int i = 0; i < table.getColumnCount(); i++){
-									header.append(table.getColumnName(i)+",");
-								}
-								System.out.println(tablename);
-								System.out.println(data);
-								//Replacing editframe
-								/*
-								EditFrame textFrame = new EditFrame(header.toString(), data.toString(), table.getColumnCount());
-								textFrame.setBounds(p.x, p.y, textFrame.getWidth(), textFrame.getHeight());
-								textFrame.setVisible(true);
-								*/
-								
-								ArrayList<String> dataList = new ArrayList<>(Arrays.asList(data.toString().split(",")));
-								InsertUpdateDialog updateDialog = new InsertUpdateDialog(tablename, dataList, false);
-								//End replacing editframe
 							}
 						});
 						
@@ -156,8 +166,7 @@ public class TableContentFromDatabase extends JPanel
 								textFrame.setBounds(p.x, p.y, textFrame.getWidth(), textFrame.getHeight());
 								textFrame.setVisible(true);
 								*/
-								
-								InsertUpdateDialog updateDialog = new InsertUpdateDialog(tablename, null, true);
+								new InsertUpdateDialog(tablename, null, true, table);
 								//End replacing InsertFrame
 							}
 						});
@@ -167,32 +176,44 @@ public class TableContentFromDatabase extends JPanel
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								rightFrame.dispose();
-								StringBuilder header = new StringBuilder();
-								StringBuilder data = new StringBuilder();
-								Point p = MouseInfo.getPointerInfo().getLocation();
-								
-								//Sort the selected lines such that they are conform to the underlying TableModel
-								int[] lines = table.getSelectedRows();
-								for (int i = 0; i < lines.length; i++) {
-									lines[i] = table.convertRowIndexToModel(lines[i]);
-								}
-								Arrays.sort(lines);
-								/*
-								 * Add data of selected lines (should only be one with our
-								 * configuration) to "data"
-								 */
-								for(int i=lines.length-1; i>=0; i--) {
-									for(int j = 0; j < table.getColumnCount(); j++){
-										data.append(table.getModel().getValueAt(lines[i], j)+",");
+								if(table.getSelectedColumn() != -1){
+									StringBuilder header = new StringBuilder();
+									StringBuilder data = new StringBuilder();
+									Point p = MouseInfo.getPointerInfo().getLocation();
+
+									// Sort the selected lines such that they
+									// are conform to the underlying TableModel
+									int[] lines = table.getSelectedRows();
+									for (int i = 0; i < lines.length; i++) {
+										lines[i] = table.convertRowIndexToModel(lines[i]);
 									}
+									Arrays.sort(lines);
+									/*
+									 * Add data of selected lines (should only
+									 * be one with our configuration) to "data"
+									 */
+									for (int i = lines.length - 1; i >= 0; i--) {
+										for (int j = 0; j < table.getColumnCount(); j++) {
+											data.append(table.getModel().getValueAt(lines[i], j) + ",");
+										}
+									}
+
+									// Add column names to header
+									for (int i = 0; i < table.getColumnCount(); i++) {
+										header.append(table.getColumnName(i) + ",");
+									}
+									
+									//Delete selected row from database and view
+									if (Utility.insert("DELETE FROM " + tablename + " WHERE " + header.toString().split(",")[0] + "=" + data.toString().split(",")[0])) {
+										for (int i = 0; i < lines.length; i++) {
+											((DefaultTableModel) table.getModel()).removeRow(lines[i]);
+										}
+									}else{
+										JOptionPane.showMessageDialog(TableContentFromDatabase.this, "Error during deletion of data", "Message", JOptionPane.INFORMATION_MESSAGE);
+									}
+								}else{
+									JOptionPane.showMessageDialog(TableContentFromDatabase.this, "No column to delete selected", "Message", JOptionPane.INFORMATION_MESSAGE);
 								}
-								
-								//Add column names to header
-								for(int i = 0; i < table.getColumnCount(); i++){
-									header.append(table.getColumnName(i)+",");
-								}
-								//TODO remove row from the view if the SQL delete command succeeds (what it should always)
-								delete(tablename,header.toString().split(",")[0], data.toString().split(",")[0], table, lines);
 							}
 						});
 						
@@ -209,94 +230,5 @@ public class TableContentFromDatabase extends JPanel
 			}
 		});	
     }
-    
-	private class EditFrame extends JDialog {
-		public EditFrame(String header, String data, int length) {
-			setTitle("EditFrame");
-			JPanel mainPanel = new JPanel();
-			// TODO listener for the buttons
-			JButton save = new JButton("Save");
-			JButton cancel = new JButton("Cancel");
-
-			mainPanel.setLayout(new GridLayout(length + 1, 2));
-			String headerString[];
-			headerString = header.split(",");
-
-			String dataString[];
-			dataString = data.split(",");
-
-			JLabel[] labels = new JLabel[length];
-			JTextField[] fields = new JTextField[length];
-			for (int i = 0; i < length; i++) {
-				labels[i] = new JLabel(headerString[i]);
-				fields[i] = new JTextField(dataString[i]);
-			}
-
-			for (int i = 0; i < length; i++) {
-				mainPanel.add(labels[i]);
-				mainPanel.add(fields[i]);
-			}
-
-			mainPanel.add(save);
-			mainPanel.add(cancel);
-
-			getContentPane().add(mainPanel);
-			addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent we) {
-					dispose();
-				}
-			});
-			setMinimumSize(new Dimension(500, 130));
-			setSize(500, 70 * length);
-		}
-	}
 	
-	private class InsertFrame extends JDialog {
-		public InsertFrame(String header, String data, int length) {
-			setTitle("InsertFrame");
-			JPanel mainPanel = new JPanel();
-			// TODO listener for the buttons
-			JButton insert = new JButton("Insert");
-			JButton cancel = new JButton("Cancel");
-
-			mainPanel.setLayout(new GridLayout(length + 1, 2));
-			String headerString[];
-			headerString = header.split(",");
-
-			String dataString[];
-			dataString = data.split(",");
-
-			JLabel[] labels = new JLabel[length];
-			JTextField[] fields = new JTextField[length];
-			for (int i = 0; i < length; i++) {
-				labels[i] = new JLabel(headerString[i]);
-				fields[i] = new JTextField(dataString[i]);
-			}
-
-			for (int i = 0; i < length; i++) {
-				mainPanel.add(labels[i]);
-				mainPanel.add(fields[i]);
-			}
-
-			mainPanel.add(insert);
-			mainPanel.add(cancel);
-
-			getContentPane().add(mainPanel);
-			addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent we) {
-					dispose();
-				}
-			});
-			setMinimumSize(new Dimension(500, 130));
-			setSize(500, 70 * length);
-		}
-	}
-	
-		public static void delete(String tableName,String name, String data, JTable table, int[] lines) {
-			if(Utility.insert("DELETE FROM " +tableName+" WHERE "+name+"="+data)){
-				for(int i = 0; i < lines.length; i++){
-					((DefaultTableModel)table.getModel()).removeRow(lines[i]);
-				}
-			}
-		}
 }

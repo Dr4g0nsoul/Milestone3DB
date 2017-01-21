@@ -2,6 +2,7 @@ package net.milestone3db.gui;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,11 +17,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JButton;
 
 import net.milestone3db.jdbc.JDBCConnector;
@@ -39,7 +44,7 @@ public class InsertUpdateDialog extends JDialog{
 	 * @param types ArrayList of strings that has the data-types in it (number,string,default)
 	 * @param inserting true if you want to insert, false if you want to update
 	 */
-	public InsertUpdateDialog(String tableName, ArrayList<String> data, boolean inserting) {
+	public InsertUpdateDialog(String tableName, ArrayList<String> data, boolean inserting, JTable table) {
 		
 		setBounds(20, 20, 800, 500);
 		
@@ -105,29 +110,50 @@ public class InsertUpdateDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(inserting) {
+					ArrayList<String> ftm = new ArrayList<>(); 
 					String insertString = "insert into "+tableName+" values (";
 					for(int i = 0;i<items.size();i++) {
-						if(types.get(i)==Types.VARCHAR||types.get(i)==Types.TIME||types.get(i)==Types.DATE)
+						if(types.get(i)==Types.VARCHAR||types.get(i)==Types.TIME||types.get(i)==Types.DATE){
 							insertString+="'"+items.get(i).getItemValue()+"',";
-						else
+							ftm.add(items.get(i).getItemValue());
+						}else{
 							insertString+=items.get(i).getItemValue()+",";
+							ftm.add(items.get(i).getItemValue());
+						}
 					}
 					insertString=insertString.substring(0, insertString.length()-1);
 					insertString+=");";
-					Utility.insert(insertString);
+					System.out.println(Arrays.toString(ftm.toArray()));
+					if(Utility.insert(insertString)){
+						((DefaultTableModel)table.getModel()).addRow(ftm.toArray());
+					}else{
+						JOptionPane.showMessageDialog(InsertUpdateDialog.this, "Error during insertion of new data", "Message", JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					String updateString = "update "+tableName+" set ";
+					ArrayList<String> ftm = new ArrayList<>(); 
 					for(int i = 0;i<items.size();i++) {
-						if(types.get(i)==Types.VARCHAR||types.get(i)==Types.TIME||types.get(i)==Types.DATE)
+						if(types.get(i)==Types.VARCHAR||types.get(i)==Types.TIME||types.get(i)==Types.DATE){
 							updateString+=names.get(i)+"='"+items.get(i).getItemValue()+"',";
-						else
+							ftm.add(items.get(i).getItemValue());
+						}else{
 							updateString+=names.get(i)+"="+items.get(i).getItemValue()+",";
+							ftm.add(items.get(i).getItemValue());
+						}
 					}
 					updateString=updateString.substring(0, updateString.length()-1)+" ";
-					//------------Not sure if it is right
-					updateString+="where "+names.get(0)+"="+data.get(0);
-					//------------
-					Utility.insert(updateString);
+					// ------------Not sure if it is right
+					updateString += "where " + names.get(0) + "=" + data.get(0);
+					// ------------
+					if (Utility.insert(updateString)) {
+						int row = table.getSelectedRow();
+						for (int i = 0; i < table.getColumnCount(); i++) {
+							((DefaultTableModel) table.getModel()).setValueAt(ftm.get(i), row, i);
+						}
+					} else {
+						JOptionPane.showMessageDialog(InsertUpdateDialog.this, "Error during updating of data",
+								"Message", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 				setVisible(false);
 				dispose();
