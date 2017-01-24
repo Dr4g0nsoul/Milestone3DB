@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -34,7 +35,6 @@ public class MainPanel extends JFrame{
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		
-		
 		listPanel = new JPanel();
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		//listPanel.setBackground(Color.red);
@@ -56,25 +56,19 @@ public class MainPanel extends JFrame{
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 		
-		righttopPanel = new JPanel();
-		righttopPanel.setLayout(new FlowLayout());
-		//righttopPanel.setBackground(Color.blue);
-		righttopPanel.setPreferredSize(new Dimension(1200, 100));
-		rightbottomPanel = new JPanel();
-		rightbottomPanel.setLayout(new BorderLayout());
-		//rightbottomPanel.setBackground(Color.green);
-		rightbottomPanel.setPreferredSize(new Dimension(1200, 700));
-				
 		tcfd = new TableContentFromDatabase("publisher");
+		((JLabel)listPanel.getComponent(2)).setForeground(Color.pink);
+		contentPanel.add(tcfd, BorderLayout.SOUTH);
 		contentPanel.add(new Searchbar(tcfd.getTable()), BorderLayout.NORTH);
 		
 		mainPanel.add(listPanel, BorderLayout.WEST);
-		mainPanel.add(contentPanel, BorderLayout.EAST);
+		mainPanel.add(contentPanel, BorderLayout.CENTER);
 		getContentPane().add(mainPanel);
 		
 		setResizable(false);
 		setVisible(true);
 		pack();
+		
 	}
 	
 	public void changeContentPanel(String tableName, JLabel selected) {
