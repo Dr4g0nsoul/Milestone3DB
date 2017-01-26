@@ -82,18 +82,18 @@ public class SelectDatabaseDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						JDBCConnector.setName(tfName.getText());
-						System.out.println(tfName.getText());
+//						System.out.println(tfName.getText());
 						JDBCConnector.setUser(tfUser.getText());
-						System.out.println(tfUser.getText());
+//						System.out.println(tfUser.getText());
 						JDBCConnector.setPassword(tfPassword.getText());
-						System.out.println(Arrays.toString(tfPassword.getPassword()));
+//						System.out.println(Arrays.toString(tfPassword.getPassword()));
 						try{
 							JDBCConnector.getInstance();
 							new MainPanel();
 							setVisible(false);
 							dispose();
 						} catch (SQLException ex) {
-							showMessage("Database error: "+ex.getMessage());
+							showMessage("Can not connect to Database");
 						}
 					}
 				});

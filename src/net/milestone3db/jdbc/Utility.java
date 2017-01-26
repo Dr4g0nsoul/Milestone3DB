@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 public class Utility {
 	public static boolean search(String s, String table){
 		Connection con = null;
@@ -46,6 +48,7 @@ public class Utility {
 			System.out.println(addedRows+" rows changed");
 			ret = true;
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error during execution of query:\n"+e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			System.out.println("SQLException in Utility.insert: "+e.getMessage());
 		} finally {
 			try {

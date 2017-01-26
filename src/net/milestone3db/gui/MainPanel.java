@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -29,7 +30,8 @@ public class MainPanel extends JFrame{
 	public MainPanel()  {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocation(50, 50);
-		setPreferredSize(new Dimension(1600, 800));
+		setPreferredSize(new Dimension(1000, 600));
+		setMinimumSize(new Dimension(750, 400));
 		setTitle("ProjectDBMilestone3");
 		
 		mainPanel = new JPanel();
@@ -38,8 +40,10 @@ public class MainPanel extends JFrame{
 		listPanel = new JPanel();
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		//listPanel.setBackground(Color.red);
-		listPanel.setPreferredSize(new Dimension(400, 800));
-		listPanel.add(new JLabel("DB-Tables"));
+		listPanel.setPreferredSize(new Dimension(150, 600));
+		JLabel fl = new JLabel("DB-Tables");
+		fl.setFont(new Font(fl.getFont().getFontName(), Font.BOLD, fl.getFont().getSize()+3));
+		listPanel.add(fl);
 		for(String tableName : Utility.getTableNames()) {
 			JLabel currentLabel = new JLabel(tableName);
 			currentLabel.addMouseListener(new MouseAdapter() {
@@ -58,14 +62,14 @@ public class MainPanel extends JFrame{
 		
 		tcfd = new TableContentFromDatabase("publisher");
 		((JLabel)listPanel.getComponent(2)).setForeground(Color.pink);
-		contentPanel.add(tcfd, BorderLayout.SOUTH);
+		contentPanel.add(tcfd, BorderLayout.CENTER);
 		contentPanel.add(new Searchbar(tcfd.getTable()), BorderLayout.NORTH);
 		
 		mainPanel.add(listPanel, BorderLayout.WEST);
 		mainPanel.add(contentPanel, BorderLayout.CENTER);
 		getContentPane().add(mainPanel);
 		
-		setResizable(false);
+//		setResizable(false);
 		setVisible(true);
 		pack();
 		
@@ -82,7 +86,7 @@ public class MainPanel extends JFrame{
 		tcfd = new TableContentFromDatabase(tableName);
 		
 		contentPanel.removeAll();
-		contentPanel.add(tcfd, BorderLayout.SOUTH);
+		contentPanel.add(tcfd, BorderLayout.CENTER);
 		contentPanel.add(new Searchbar(tcfd.getTable()), BorderLayout.NORTH);
 		contentPanel.revalidate();
 		

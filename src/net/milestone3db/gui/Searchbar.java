@@ -30,7 +30,7 @@ public class Searchbar extends JPanel {
 		gpl.setAutoCreateGaps(true);
 		
 		searchField = new JTextField();
-		searchField.setPreferredSize(new Dimension(700, 30));
+//		searchField.setPreferredSize(new Dimension(700, 30));
 		JButton searchButton = new JButton("Search");
 		JButton resetButton = new JButton("Reset");
 		
@@ -52,7 +52,7 @@ public class Searchbar extends JPanel {
 		table.setRowSorter(rowSorter);
 		
 		setLayout(gpl);
-    	setPreferredSize(new Dimension(1200, 70));
+//    	setPreferredSize(new Dimension(1200, 70));
         setBorder(BorderFactory.createMatteBorder(1,0,0,1, Color.black));
         //setBackground(Color.black);
         

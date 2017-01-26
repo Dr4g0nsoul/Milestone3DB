@@ -34,7 +34,7 @@ public class TableContentFromDatabase extends JPanel
     {
 		tablenameTMP = tablename;
     	setLayout(new BorderLayout());
-    	setPreferredSize(new Dimension(1200, 700));
+//    	setPreferredSize(new Dimension(1200, 700));
     	setBackground(Color.red);
     	setBorder(BorderFactory.createMatteBorder(0,0,1,1, Color.black));
     		
@@ -213,7 +213,7 @@ public class TableContentFromDatabase extends JPanel
 											((DefaultTableModel) table.getModel()).removeRow(lines[i]);
 										}
 									}else{
-										JOptionPane.showMessageDialog(TableContentFromDatabase.this, "Error during deletion of data", "Message", JOptionPane.INFORMATION_MESSAGE);
+//										JOptionPane.showMessageDialog(TableContentFromDatabase.this, "Error during deletion of data", "Message", JOptionPane.INFORMATION_MESSAGE);
 									}
 								}else{
 									JOptionPane.showMessageDialog(TableContentFromDatabase.this, "No column to delete selected", "Message", JOptionPane.INFORMATION_MESSAGE);
@@ -398,7 +398,7 @@ public class TableContentFromDatabase extends JPanel
 											((DefaultTableModel) table.getModel()).removeRow(lines[i]);
 										}
 									}else{
-										JOptionPane.showMessageDialog(TableContentFromDatabase.this, "Error during deletion of data", "Message", JOptionPane.INFORMATION_MESSAGE);
+//										JOptionPane.showMessageDialog(TableContentFromDatabase.this, "Error during deletion of data", "Message", JOptionPane.INFORMATION_MESSAGE);
 									}
 								}else{
 									JOptionPane.showMessageDialog(TableContentFromDatabase.this, "No column to delete selected", "Message", JOptionPane.INFORMATION_MESSAGE);

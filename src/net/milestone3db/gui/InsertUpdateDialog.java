@@ -127,7 +127,7 @@ public class InsertUpdateDialog extends JDialog{
 					if(Utility.insert(insertString)){
 						((DefaultTableModel)table.getModel()).addRow(ftm.toArray());
 					}else{
-						JOptionPane.showMessageDialog(InsertUpdateDialog.this, "Error during insertion of new data", "Message", JOptionPane.INFORMATION_MESSAGE);
+//						JOptionPane.showMessageDialog(InsertUpdateDialog.this, "Error during insertion of new data", "Message", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
 					String updateString = "update "+tableName+" set ";
@@ -151,8 +151,8 @@ public class InsertUpdateDialog extends JDialog{
 							((DefaultTableModel) table.getModel()).setValueAt(ftm.get(i), row, i);
 						}
 					} else {
-						JOptionPane.showMessageDialog(InsertUpdateDialog.this, "Error during updating of data",
-								"Message", JOptionPane.INFORMATION_MESSAGE);
+//						JOptionPane.showMessageDialog(InsertUpdateDialog.this, "Error during updating of data",
+//								"Message", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 				setVisible(false);
